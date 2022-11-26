@@ -3,10 +3,15 @@ import { useParams } from 'react-router-dom'
 export default function Planet({planetsData}) {
   const params=useParams();
     let [overviewImage,setOverviewImage]=useState('');
+    let [geoImage,setGeo]=useState('')
     const planet=planetsData.find(plan => plan.name=== params.planet);
     const getImage=async(planet,type='planet')=>{
         const planetLogo=await import(`./../../assets${planet['images'][type]}`)
         setOverviewImage(planetLogo.default);
+    }
+    const getGeoImage=async(planet)=>{
+      const planetLogo=await import(`./../../assets${planet['images']['geology']}`)
+      setGeo(planetLogo.default)
     }
     const inactiveOption=(planetElement)=>{
       if(planetElement.classList.contains('activeLink'))
@@ -19,7 +24,7 @@ export default function Planet({planetsData}) {
     const setActiveOption=(planetElement,event='')=>{
       if(!planetElement.classList.contains('activeLink'))
       {
-        if(event==='click')getImage(planet,planetElement.id);
+        if(event==='click')getImage(planet,(planetElement.id === 'geology')?'planet':planetElement.id);
         planetElement.classList.add('activeLink');
         planetElement.classList.remove('planetLink');
       }
@@ -27,20 +32,33 @@ export default function Planet({planetsData}) {
 
     const handlePlanetOption=(e)=>{
       const planetOptions=document.querySelectorAll('.planetClick');
-      // const planetImage=document.querySelector('#planetImage');
+      const geologyImage=document.querySelector('#geologyImage');
+      
       planetOptions.forEach(planetElement =>{
          if(e.target === planetElement || e.target.parentNode === planetElement)
-         {setActiveOption(planetElement,'click')}
-         else{inactiveOption(planetElement);}
+         {setActiveOption(planetElement,'click');
+          if(planetElement.id === 'geology'){
+            geologyImage.classList.remove('d-none')
+          }
+         }
+         else{inactiveOption(planetElement);
+          if(planetElement.id !== 'geology'){
+            geologyImage.classList.add('d-none')
+          }
+        }
       })
 
     }
 
     useEffect(()=>{
       getImage(planet);
+      getGeoImage(planet);
     },[])
     useEffect(()=>{
+      const geologyImage=document.querySelector('#geologyImage');
+      geologyImage.classList.add('d-none');
       getImage(planet);
+      getGeoImage(planet);
       const planetOptions=document.querySelectorAll('.planetClick');
       planetOptions.forEach((planetElement,index) =>{
         if(index === 0){setActiveOption(planetElement)}
@@ -56,12 +74,13 @@ export default function Planet({planetsData}) {
     </div>
     <div className='container-lg py-5 mt-md-5'>
         <div className="row align-items-start g-4 py-5 ">
-            <div className="col-lg-8 mb-5 pb-3 pb-md-5 pb-lg-0 mb-lg-0 align-self-center">
-                <div className='text-center text-lg-start ms-xl-5 ps-lg-5'>
-                    <img src={overviewImage} alt="section image" className='ps-xl-5 ms-lg-5 PlanetImageWidth' id='planetImage'/>
+            <div className="col-lg-8 mb-5 pb-3 pb-md-5 pb-lg-0 mb-lg-0 align-self-center position-relative">
+                <div className='text-center text-lg-start ms-xl-5 ps-lg-5 '>
+                    <img src={overviewImage} alt="section image" className='ps-xl-5 ms-lg-5 PlanetImageWidth'/>
+                    <img src={geoImage} alt="section image" className='d-none position-absolute' id='geologyImage'/>
                 </div>
             </div>
-            <div className="col-lg-4 px-md-5 px-lg-0">
+            <div className="col-lg-4 px-md-5 px-lg-0 mt-5 mt-lg-0">
               <div className="row pe-xl-5 align-items-md-center align-items-lg-start">
                  <div className="col-lg-12 col-md-7">
                     <div className='mb-lg-4 pb-lg-2 text-center text-md-start px-3 px-md-0'>

@@ -69,6 +69,20 @@ body{
 .PlanetImageWidth{
     width:60%;
 }
+
+#geologyImage{
+    width:30%;
+    left:35%;
+    margin-bottom: 50px;
+    bottom:-100px
+    // bottom:-25%;
+}
+
+@media screen and (min-width:576px){
+    .PlanetImageWidth{
+        width:50%;
+    }
+}
 @media screen and (min-width:768px){
     .container-fluid{
         flex-direction: column;
@@ -106,6 +120,11 @@ body{
         width:40%;
     }
     
+    #geologyImage{
+        width:25%;
+        left:37.5%;
+        // bottom:-25%;
+    }
   
 }
 
@@ -131,9 +150,34 @@ body{
     .PlanetImageWidth{
         width:60%;
     }
+
+
+    #geologyImage{
+        width:30%;
+        left:29%;
+        margin-bottom: 0px;
+        // bottom:-30%;
+    }
+   
 }
+
 @media screen and (min-width:1200px){
     .PlanetImageWidth{
         width:55%;
+    }
+
+    #geologyImage{
+        width:28%;
+        left:33%;
+        // bottom:-30%;
+    }
+}
+
+@media screen and (min-width:1400px){
+  
+    #geologyImage{
+        width:28%;
+        left:30%;
+        // bottom:-30%;
     }
 }
