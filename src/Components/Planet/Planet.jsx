@@ -4,15 +4,48 @@ export default function Planet({planetsData}) {
   const params=useParams();
     let [overviewImage,setOverviewImage]=useState('');
     const planet=planetsData.find(plan => plan.name=== params.planet);
-    const getImage=async(planet)=>{
-        const planetLogo=await import(`./../../assets${planet.images.planet}`)
+    const getImage=async(planet,type='planet')=>{
+        const planetLogo=await import(`./../../assets${planet['images'][type]}`)
         setOverviewImage(planetLogo.default);
     }
+    const inactiveOption=(planetElement)=>{
+      if(planetElement.classList.contains('activeLink'))
+      {
+        planetElement.classList.remove('activeLink');
+        planetElement.classList.add('planetLink');
+      }
+    }
+
+    const setActiveOption=(planetElement,event='')=>{
+      if(!planetElement.classList.contains('activeLink'))
+      {
+        if(event==='click')getImage(planet,planetElement.id);
+        planetElement.classList.add('activeLink');
+        planetElement.classList.remove('planetLink');
+      }
+    }
+
+    const handlePlanetOption=(e)=>{
+      const planetOptions=document.querySelectorAll('.planetClick');
+      // const planetImage=document.querySelector('#planetImage');
+      planetOptions.forEach(planetElement =>{
+         if(e.target === planetElement || e.target.parentNode === planetElement)
+         {setActiveOption(planetElement,'click')}
+         else{inactiveOption(planetElement);}
+      })
+
+    }
+
     useEffect(()=>{
       getImage(planet);
     },[])
     useEffect(()=>{
       getImage(planet);
+      const planetOptions=document.querySelectorAll('.planetClick');
+      planetOptions.forEach((planetElement,index) =>{
+        if(index === 0){setActiveOption(planetElement)}
+        else{inactiveOption(planetElement);}
+      } )
     },[planet])
   return (
     <>
@@ -22,10 +55,10 @@ export default function Planet({planetsData}) {
         <span className='planetOption text-uppercase small'>Surface</span>
     </div>
     <div className='container-lg py-5 mt-md-5'>
-        <div className="row align-items-center g-4 py-5 ">
-            <div className="col-lg-8 mb-5 pb-3 pb-md-5 pb-lg-0 mb-lg-0">
+        <div className="row align-items-start g-4 py-5 ">
+            <div className="col-lg-8 mb-5 pb-3 pb-md-5 pb-lg-0 mb-lg-0 align-self-center">
                 <div className='text-center text-lg-start ms-xl-5 ps-lg-5'>
-                    <img src={overviewImage} alt="overview" className='ps-xl-5 ms-lg-5 PlanetImageWidth'/>
+                    <img src={overviewImage} alt="section image" className='ps-xl-5 ms-lg-5 PlanetImageWidth' id='planetImage'/>
                 </div>
             </div>
             <div className="col-lg-4 px-md-5 px-lg-0">
@@ -46,15 +79,15 @@ export default function Planet({planetsData}) {
                  </div>
                  <div className="col-lg-12 col-md-5 d-none d-md-block" >
                  <div>
-                      <div className='d-flex align-items-center py-7 px-3 activeLink mb-3'>
+                      <div className='d-flex align-items-center py-7 px-3 activeLink mb-3 planetClick' onClick={handlePlanetOption} id='planet'>
                         <span className='fw-semibold num'>01</span>
                         <span className='ms-4 text-uppercase fw-normal title small'>OverVIEW</span>
                       </div>
-                      <div className='d-flex align-items-center py-7 px-3 planetLink  mb-3'>
+                      <div className='d-flex align-items-center py-7 px-3 planetLink  mb-3 planetClick' onClick={handlePlanetOption} id='internal'>
                         <span className='fw-semibold num'>02</span>
                         <span className='ms-4 text-uppercase fw-normal title small'>Internal Structure</span>
                       </div>
-                      <div className='d-flex align-items-center py-7 px-3 planetLink '>
+                      <div className='d-flex align-items-center py-7 px-3 planetLink planetClick' onClick={handlePlanetOption} id='geology'>
                         <span className='fw-semibold num'>03</span>
                         <span className='ms-4 text-uppercase fw-normal title small'>Surface Geology</span>
                       </div>
