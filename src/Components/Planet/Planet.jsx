@@ -36,6 +36,7 @@ export default function Planet({planetsData}) {
       }
     
     }
+    
     const setActiveOnload=(planetsElement,size,indexValue)=>{
       planetsElement.forEach((planetElement,index) =>{
         if(index === indexValue){setActiveOption(planetElement,size,index)}
@@ -95,7 +96,6 @@ export default function Planet({planetsData}) {
       const inactiveLinks=document.querySelectorAll('.planetLink');
       inactiveLinks.forEach(link =>{
         link.style.backgroundColor='transparent';
-
       })
       activeLink.style.backgroundColor=backGrounds[planetIndex];
       activeLinkSmall.style.setProperty('--linkColor',backGrounds[planetIndex] )
