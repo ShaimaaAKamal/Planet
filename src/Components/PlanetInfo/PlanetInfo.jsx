@@ -2,6 +2,8 @@ import React, { useEffect ,useState } from 'react'
 
 export default function PlanetInfo({planet,planetsData}) {
     let [overviewImage,setOverviewImage]=useState('');
+    let [source,setSource]=useState('');
+    let [content,setContent]=useState('');
     let [geoImage,setGeo]=useState('');
     let backGrounds=['#419EBB','#EDA249','#6f2ed6','#D14C32','#D83A34','#CD5120','#1ec2a4','#2d68f0']
     const getImage=async(planet,type='planet')=>{
@@ -31,6 +33,9 @@ export default function PlanetInfo({planet,planetsData}) {
         if(event==='click')getImage(planet,(planetElement.id === 'geology')?'planet':planetElement.id);
         planetElement.classList.add(active);
         planetElement.classList.remove(inactive);
+        const key=(planetElement.id === 'planet')?'overview':(planetElement.id === 'internal')?'structure':planetElement.id;
+        setSource(planet[key]['source']);
+        setContent(planet[key]['content']);
       }
     
     }
@@ -85,6 +90,7 @@ export default function PlanetInfo({planet,planetsData}) {
         optionChoice(planetElement,(planetElement.id === activePlanetLink.id),'sm',index)
       })
       setActiveColor();
+
     }
 
     const setActiveColor=()=>{
@@ -103,6 +109,8 @@ export default function PlanetInfo({planet,planetsData}) {
     useEffect(()=>{
       getImage(planet);
       getGeoImage(planet);
+      setContent(planet.overview.content);
+      setSource(planet.overview.source)
       setActiveColor();
     },[])
     useEffect(()=>{
@@ -112,6 +120,8 @@ export default function PlanetInfo({planet,planetsData}) {
       geologyImage.classList.add('d-none');
       getImage(planet);
       getGeoImage(planet);
+      setContent(planet.overview.content);
+      setSource(planet.overview.source)
       setActiveOnload(smPlanetClick,'sm',0);
       setActiveOnload(planetOptions,'lg',0);
       setActiveColor();
@@ -137,10 +147,10 @@ export default function PlanetInfo({planet,planetsData}) {
                  <div className="col-lg-12 col-md-7">
                     <div className='mb-lg-4 pb-lg-2 text-center text-md-start px-3 px-md-0'>
                           <h2 className='display-5 fw-semibold text-uppercase antoFamily mb-4'>{planet.name}</h2>
-                          <p className='small text-white fw-lighter pe-lg-3 pe-md-5'>{planet.overview.content}</p>
+                          <p className='small text-white fw-lighter pe-lg-3 pe-md-5'>{content}</p>
                           <p>
                             <span className='text-muted fw-light small'>Source: </span>
-                              <a href={planet.overview.source} className='text-muted fw-semibold'>
+                              <a href={source} className='text-muted fw-semibold'>
                                   <span>Wikipedia</span>
                                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"><path fill="#FFF" d="M11.34.66C10.9.22 10.37 0 9.75 0h-7.5C1.63 0 1.1.22.66.66.22 1.1 0 1.63 0 2.25v7.5c0 .62.22 1.15.66 1.59.44.44.97.66 1.59.66h7.5c.62 0 1.15-.22 1.59-.66.44-.44.66-.97.66-1.59v-7.5c0-.62-.22-1.15-.66-1.59zM10 6.25a.467.467 0 01-.305.46.544.544 0 01-.195.04.465.465 0 01-.352-.149L8.023 5.476 3.852 9.648a.481.481 0 01-.352.149.48.48 0 01-.352-.149l-.796-.797a.48.48 0 01-.149-.351.48.48 0 01.149-.352l4.172-4.172-1.125-1.125c-.162-.15-.198-.333-.11-.546A.467.467 0 015.75 2H9.5c.135 0 .253.05.352.148A.48.48 0 0110 2.5v3.75z" opacity=".5"/>
                                   </svg>
