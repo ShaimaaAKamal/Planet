@@ -9,7 +9,7 @@ function App() {
   const routes=createBrowserRouter([
     {path:'/' ,element:<Layout planetsData={planetsData}/>,errorElement:<NotFound/>,children:[
       {index:true ,element:<Navigate to='/Planet/Mercury'/>},
-      {path:'Planet/:planet',element:<Planet/>}
+      {path:'Planet/:planet',element:<Planet planetsData={planetsData}/>}
     ]}
   ])
   return (
