@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom'
 export default function Planet({planetsData}) {
   const params=useParams();
     let [overviewImage,setOverviewImage]=useState('');
-    let [geoImage,setGeo]=useState('')
+    let [geoImage,setGeo]=useState('');
+    let backGrounds=['#419EBB','#EDA249','#6f2ed6','#D14C32','#D83A34','#CD5120','#1ec2a4','#2d68f0']
     const planet=planetsData.find(plan => plan.name=== params.planet);
     const getImage=async(planet,type='planet')=>{
         const planetLogo=await import(`./../../assets${planet['images'][type]}`)
@@ -71,6 +72,7 @@ export default function Planet({planetsData}) {
       planetOptions.forEach((planetElement,index) =>{
         optionChoice(planetElement,(planetElement.id === activePlanetLink.id),'lg',index)
       })
+      setActiveColor();
     }
     
     const handlePlanetOption=(e)=>{
@@ -83,12 +85,27 @@ export default function Planet({planetsData}) {
       smPlanetClick.forEach((planetElement,index) =>{
         optionChoice(planetElement,(planetElement.id === activePlanetLink.id),'sm',index)
       })
+      setActiveColor();
+    }
 
+    const setActiveColor=()=>{
+      const planetIndex=planetsData.indexOf(planet);
+      const activeLink=document.querySelector('.activeLink');
+      const activeLinkSmall=document.querySelector('.activePlanetLink');
+      const inactiveLinks=document.querySelectorAll('.planetLink');
+      inactiveLinks.forEach(link =>{
+        link.style.backgroundColor='transparent';
+
+      })
+      activeLink.style.backgroundColor=backGrounds[planetIndex];
+      activeLinkSmall.style.setProperty('--linkColor',backGrounds[planetIndex] )
     }
    
+
     useEffect(()=>{
       getImage(planet);
       getGeoImage(planet);
+      setActiveColor();
     },[])
     useEffect(()=>{
       const geologyImage=document.querySelector('#geologyImage');
@@ -99,6 +116,7 @@ export default function Planet({planetsData}) {
       getGeoImage(planet);
       setActiveOnload(smPlanetClick,'sm',0);
       setActiveOnload(planetOptions,'lg',0);
+      setActiveColor();
     },[planet])
  
   return (
