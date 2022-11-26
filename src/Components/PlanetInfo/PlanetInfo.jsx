@@ -129,7 +129,7 @@ export default function PlanetInfo({planet,planetsData}) {
  
   return (
     <>
-    <div className='d-md-none d-flex justify-content-around py-3 planetMenuBorder'>
+    <div className='d-md-none d-flex justify-content-around py-4 planetMenuBorder'>
         <span className='activePlanetLink text-uppercase fs-7 smPlanetClick' onClick={handlePlanetOptionSmall} id='planet'>overview</span>
         <span className='planetOption text-uppercase fs-7 smPlanetClick' onClick={handlePlanetOptionSmall} id='internal'>Structure</span>
         <span className='planetOption text-uppercase fs-7 smPlanetClick' onClick={handlePlanetOptionSmall} id='geology'>Surface</span>
