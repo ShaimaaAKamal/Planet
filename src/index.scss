@@ -29,6 +29,9 @@ body{
 }
 .nav-link{
     color: #fff !important;
+    &:hover{
+        color:var(--navLinkColor) !important;
+    }
 }
 .nav-link.active{
     color:var(--navLinkColor) !important;
