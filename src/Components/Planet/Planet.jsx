@@ -13,64 +13,100 @@ export default function Planet({planetsData}) {
       const planetLogo=await import(`./../../assets${planet['images']['geology']}`)
       setGeo(planetLogo.default)
     }
-    const inactiveOption=(planetElement)=>{
-      if(planetElement.classList.contains('activeLink'))
+
+    const inactiveOption=(planetElement,size,index)=>{
+       let active=(size=== 'lg')?'activeLink':'activePlanetLink';
+       let inactive=(size === 'lg') ? 'planetLink':'planetOption';
+      if(planetElement.classList.contains(active))
       {
-        planetElement.classList.remove('activeLink');
-        planetElement.classList.add('planetLink');
+        planetElement.classList.remove(active);
+        planetElement.classList.add(inactive);
       }
     }
 
-    const setActiveOption=(planetElement,event='')=>{
-      if(!planetElement.classList.contains('activeLink'))
-      {
+    const setActiveOption=(planetElement,size,index,event='')=>{
+      let active=(size === 'lg')?'activeLink':'activePlanetLink';
+      let inactive=(size === 'lg') ? 'planetLink':'planetOption';
+      if(!planetElement.classList.contains(active))
+      { 
         if(event==='click')getImage(planet,(planetElement.id === 'geology')?'planet':planetElement.id);
-        planetElement.classList.add('activeLink');
-        planetElement.classList.remove('planetLink');
+        planetElement.classList.add(active);
+        planetElement.classList.remove(inactive);
       }
+    
+    }
+    const setActiveOnload=(planetsElement,size,indexValue)=>{
+      planetsElement.forEach((planetElement,index) =>{
+        if(index === indexValue){setActiveOption(planetElement,size,index)}
+        else{inactiveOption(planetElement,size,index);}
+      } )
     }
 
+    const optionChoice=(planetElement,condition,size,index)=>{
+      const geologyImage=document.querySelector('#geologyImage');
+      if(condition)
+      {
+       setActiveOption(planetElement,size,index,'click');
+       if(planetElement.id === 'geology'){
+         geologyImage.classList.remove('d-none')
+       }
+      }
+      else{
+       inactiveOption(planetElement,size,index);
+       if(planetElement.id !== 'geology'){
+         geologyImage.classList.add('d-none')
+       }
+     }
+      
+
+    }
+
+    const handlePlanetOptionSmall=(e)=>{
+      const smPlanetClick=document.querySelectorAll('.smPlanetClick');
+      const planetOptions=document.querySelectorAll('.planetClick');
+      smPlanetClick.forEach((planetElement,index) => {
+        optionChoice(planetElement,(e.target === planetElement),'sm',index)
+      })
+      const activePlanetLink=Array.from(smPlanetClick).find(plan => plan.classList.contains('activePlanetLink'));
+      planetOptions.forEach((planetElement,index) =>{
+        optionChoice(planetElement,(planetElement.id === activePlanetLink.id),'lg',index)
+      })
+    }
+    
     const handlePlanetOption=(e)=>{
       const planetOptions=document.querySelectorAll('.planetClick');
-      const geologyImage=document.querySelector('#geologyImage');
-      
-      planetOptions.forEach(planetElement =>{
-         if(e.target === planetElement || e.target.parentNode === planetElement)
-         {setActiveOption(planetElement,'click');
-          if(planetElement.id === 'geology'){
-            geologyImage.classList.remove('d-none')
-          }
-         }
-         else{inactiveOption(planetElement);
-          if(planetElement.id !== 'geology'){
-            geologyImage.classList.add('d-none')
-          }
-        }
+      const smPlanetClick=document.querySelectorAll('.smPlanetClick');
+      planetOptions.forEach((planetElement,index) =>{
+        optionChoice(planetElement,(e.target === planetElement || e.target.parentNode === planetElement),'lg',index)
+      })
+      const activePlanetLink=Array.from(planetOptions).find(plan => plan.classList.contains('activeLink'));
+      smPlanetClick.forEach((planetElement,index) =>{
+        optionChoice(planetElement,(planetElement.id === activePlanetLink.id),'sm',index)
       })
 
     }
-
+   
     useEffect(()=>{
       getImage(planet);
       getGeoImage(planet);
     },[])
     useEffect(()=>{
       const geologyImage=document.querySelector('#geologyImage');
+      const planetOptions=document.querySelectorAll('.planetClick');
+      const smPlanetClick=document.querySelectorAll('.smPlanetClick');
       geologyImage.classList.add('d-none');
       getImage(planet);
       getGeoImage(planet);
-      const planetOptions=document.querySelectorAll('.planetClick');
-      planetOptions.forEach((planetElement,index) =>{
-        if(index === 0){setActiveOption(planetElement)}
-        else{inactiveOption(planetElement);}
-      } )
+      setActiveOnload(smPlanetClick,'sm',0);
+      setActiveOnload(planetOptions,'lg',0);
     },[planet])
+ 
   return (
     <>
     <div className='d-md-none d-flex justify-content-around py-3 planetMenuBorder'>
-        <span className='activePlanetLink text-uppercase small'>overview</span>
-        <span className='planetOption text-uppercase small'>Structure</span>
-        <span className='planetOption text-uppercase small'>Surface</span>
+        <span className='activePlanetLink text-uppercase small smPlanetClick' onClick={handlePlanetOptionSmall} id='planet'>overview</span>
+        <span className='planetOption text-uppercase small smPlanetClick' onClick={handlePlanetOptionSmall} id='internal'>Structure</span>
+        <span className='planetOption text-uppercase small smPlanetClick' onClick={handlePlanetOptionSmall} id='geology'>Surface</span>
     </div>
     <div className='container-lg py-5 mt-md-5'>
         <div className="row align-items-start g-4 py-5 ">
