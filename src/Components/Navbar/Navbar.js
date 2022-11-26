@@ -5,20 +5,13 @@ export default function Navbar({planetsData}) {
     const navigate=useNavigate();
     const planets=planetsData.map(planet =>  planet.name);
     const backGrounds=['#D9F5FD','#FFCA72','#525BFF','#FF5C34','#F7AA71','#FFC957','#00F4D4','#3480FF'];
-        // let [image,setImage]=useState('');
-
-    // const getImage=async(planet)=>{
-    //     const planetInfo=planetsData.find(plan => plan.name === planet)
-    //     const planetLogo=await import(`./../../assets${planetInfo.images.planet}`)
-    //     setImage(planetLogo.default)
-    // }
     const getPlanet=(planet)=>{
        navigate(`/Planet/${planet}`);
     }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <div className="container-fluid">
-      <Link className="navbar-brand text-uppercase" to="/">The Planets</Link>
+      <Link className="navbar-brand text-uppercase antoFamily" to="/">The Planets</Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17"><g fill="#FFF" fillRule="evenodd">
             <path d="M0 0h24v3H0zM0 7h24v3H0zM0 14h24v3H0z"/></g>
