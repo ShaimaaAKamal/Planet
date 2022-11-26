@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Navbar({planetsData}) {
+export default function Navbar({planetsData,backGrounds}) {
     const navigate=useNavigate();
     const planets=planetsData.map(planet =>  planet.name);
-    const backGrounds=['#D9F5FD','#FFCA72','#525BFF','#FF5C34','#F7AA71','#FFC957','#00F4D4','#3480FF'];
     const getPlanet=(planet)=>{
        navigate(`/Planet/${planet}`);
     }
