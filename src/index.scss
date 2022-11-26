@@ -3,6 +3,7 @@
 :root{
     --linkColor:#00A1BE;
     --hoverColor:#31314A;
+    --navLinkColor:#00A1BE;
 }
 body{
     background-image:url('./assets/background-stars.svg'),linear-gradient(rgb(0,0,0),rgba(0,0,0));
@@ -29,7 +30,9 @@ body{
 .nav-link{
     color: #fff !important;
 }
-
+.nav-link.active{
+    color:var(--navLinkColor) !important;
+}
 .antoFamily,.facts{
     font-family: 'Antonio', sans-serif;
 }
