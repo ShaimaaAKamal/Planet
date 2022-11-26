@@ -16,6 +16,10 @@ body{
 
 }
 
+.fs-7{
+    font-size: .8rem !important;
+}
+
 .Planet{
     border-bottom:.1px solid #79797996 !important;
 }
@@ -26,8 +30,8 @@ body{
     color: #fff !important;
 }
 
-.antoFamily{
-    font-family: 'League Spartan', sans-serif;
+.antoFamily,.facts{
+    font-family: 'Antonio', sans-serif;
 }
 .title{
     letter-spacing: 2px;
@@ -36,6 +40,10 @@ body{
     .num{
         color:rgba(255, 255, 255, 0.598)
     }
+}
+nav{
+    background-color: transparent;
+    border-bottom:.5px solid #393952 !important;
 }
 .planetMenuBorder{
     border-top:.5px solid #393952 !important;
