@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,NavLink, useNavigate } from 'react-router-dom';
 
 export default function Navbar({planetsData,backGrounds}) {
     const navigate=useNavigate();
@@ -23,7 +23,7 @@ export default function Navbar({planetsData,backGrounds}) {
              <div className='d-flex justify-content-between align-items-center py-1 Planet' onClick={()=>getPlanet(planet)}>
                 <div className='d-flex align-items-center'>
                    <i className="fa-solid fa-circle d-md-none me-3" style={{color:`${backGrounds[index]}`}}></i>
-                    <Link className="nav-link fw-semiBold fs-7 text-uppercase" aria-current="page" to={`/Planet/${planet}`}>{planet}</Link>
+                    <NavLink className="nav-link fw-semiBold fs-7 text-uppercase" aria-current="page" to={`/Planet/${planet}`}>{planet}</NavLink>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="6" height="8" className='d-md-none'>
                     <path fill="none" stroke="#FFF" opacity=".4" d="M1 0l4 4-4 4"/>
